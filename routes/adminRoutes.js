@@ -13,7 +13,11 @@ const {
     delete_MedicalHist,
     edit_MedicalHist,
     get_MedicalHists,
-    add_MedicalHist
+    add_MedicalHist,
+    delete_Appointment,
+    edit_Appointment,
+    get_Appointments,
+    add_Appointment
 
 } = require("../controllers/AdminControllers");
 const { requireAdminAuth } = require('../middleware/adminAuth');
@@ -39,5 +43,9 @@ adminroute.post("/addMedicalHist/admin", requireAdminAuth, add_MedicalHist);
 adminroute.get("/getMedicalHists/admin", requireAdminAuth, get_MedicalHists);
 adminroute.post("/editMedicalHist/admin/:id", requireAdminAuth, edit_MedicalHist);
 adminroute.post("/deleteMedicalHist/admin/:id", requireAdminAuth, delete_MedicalHist);
+adminroute.post("/addAppointment/admin", requireAdminAuth, add_Appointment);
+adminroute.get("/getAppointments/admin", requireAdminAuth, get_Appointments);
+adminroute.post("/editAppointment/admin/:id", requireAdminAuth, edit_Appointment);
+adminroute.post("/deleteAppointment/admin/:id", requireAdminAuth, delete_Appointment);
 
 module.exports = adminroute;

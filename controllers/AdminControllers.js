@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const Doctor = require("../models/Doctor");
 const Patient = require("../models/Patient");
 const Medical = require("../models/MedicalHistory");
+const Appointment = require("../models/Appointment");
 
 
 const handleError = (err) => { };
@@ -262,3 +263,66 @@ module.exports.delete_MedicalHist = async (req, res) => {
 }
 
 
+module.exports.add_Appointment = async (req, res) => {
+    const { patientid, doctorid, consultatancyfees, appointmentTime } = req.body;
+    try {
+        const appoint = await Appointment.create({
+            patientid,
+            doctorid,
+            consultatancyfees,
+            appointmentTime
+        });
+        res.status(201).json({ appoint });
+    } catch (err) {
+        const errors = handleError(err);
+        res.status(404).json({ errors });
+    };
+};
+
+module.exports.get_Appointments = async (req, res) => {
+    try {
+        const data = await Appointment.find();
+        res.status(200).json({ data });
+    } catch (err) {
+        const errors = handleError(err);
+        res.status(404).json({ errors });
+    };
+
+}
+
+module.exports.edit_Appointment = async (req, res) => {
+    const { patientid, doctorid, consultatancyfees, appointmentTime } = req.body;
+    const id = req.params.id;
+
+    try {
+
+        const data = await Appointment.updateOne(
+            { _id: id },
+            {
+                $set: {
+                    patientid,
+                    doctorid,
+                    consultatancyfees,
+                    appointmentTime
+                }
+            }
+        );
+        res.status(200).json(data);
+    } catch (err) {
+        const errors = handleError(err);
+        res.status(404).json({ errors });
+    };
+}
+
+
+module.exports.delete_Appointment = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const data = await Appointment.deleteOne({ _id: id });
+        res.status(200).json({ data });
+    } catch (err) {
+        const errors = handleError(err);
+        res.status(404).json({ errors });
+    };
+
+}
