@@ -54,7 +54,7 @@ patientSchema.pre("save", async function(next){
     next();
 })
 
-patientSchema.statics.login = async function(next){
+patientSchema.statics.login = async function(email,password){
     const patient = await this.findOne({ email });
     if (patient) {
         const auth = await bcrypt.compare(password, patient.password);
